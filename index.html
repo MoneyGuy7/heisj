@@ -3,728 +3,612 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="An interactive World War I study guide with definitions, people, timeline, propaganda, flashcards, and practice quizzes.">
-<title>World War I — Interactive Study Guide</title>
-<style>
-:root{--bg:#f4f6fa;--panel:#fff;--ink:#172033;--muted:#657087;--line:#e2e7ef;--accent:#3157d5;--accent2:#e8edff;--good:#16845b;--bad:#c34444;--shadow:0 10px 30px rgba(20,35,70,.07)}
-[data-theme="dark"]{--bg:#101522;--panel:#192235;--ink:#edf2ff;--muted:#a8b3c8;--line:#303d55;--accent:#91a8ff;--accent2:#273456;--good:#55c99a;--bad:#ff8585;--shadow:0 10px 30px rgba(0,0,0,.2)}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-header{background:linear-gradient(120deg,#142448,#304fa5);color:#fff;padding:34px 20px 28px}
-.top{max-width:1100px;margin:auto;display:flex;justify-content:space-between;gap:20px;align-items:center}
-h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;margin:0 0 12px}
-.sub{color:#dbe4ff;margin:0;max-width:700px}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-button,.tab{font:inherit;cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:9px 13px;background:var(--panel);color:var(--ink)}
-button:hover,.tab:hover{border-color:var(--accent)}
-.hero-btn{background:#fff;color:#1c3474;border:0;font-weight:700}
-.wrap{max-width:1100px;margin:24px auto;padding:0 18px}
-.notice{padding:13px 16px;background:var(--accent2);border:1px solid var(--line);border-radius:12px;color:var(--ink);margin-bottom:18px}
-.progressbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 18px;box-shadow:var(--shadow);margin-bottom:18px}
-.progressrow{display:flex;justify-content:space-between;gap:12px;font-size:.92rem;color:var(--muted)}
-.bar{height:9px;background:var(--line);border-radius:20px;overflow:hidden;margin-top:9px}
-.bar>span{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
-.tab{font-weight:650}
-.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
-section.panel{display:none;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);margin-bottom:24px}
-section.panel.active{display:block}
-h2{font-size:1.55rem;margin:0 0 5px}
-h3{margin:18px 0 8px;font-size:1.1rem}
-.hint{color:var(--muted);margin:0 0 18px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:12px}
-.card{border:1px solid var(--line);border-radius:12px;padding:15px;background:var(--panel)}
-.card h3{margin:0 0 6px}
-.card p{margin:0;color:var(--muted)}
-.tag{display:inline-block;font-size:.75rem;background:var(--accent2);color:var(--ink);padding:3px 8px;border-radius:20px;margin-bottom:7px}
-.term-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:9px}
-.term{border:1px solid var(--line);border-radius:10px;padding:12px 14px}
-.term strong{display:block}
-.term span{color:var(--muted)}
-ul,ol{padding-left:23px}
-.timeline li{padding:0 0 12px 5px}
-.timeline strong{color:var(--accent)}
-table{width:100%;border-collapse:collapse;margin:12px 0}
-th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{background:var(--accent2)}
-.callout{border-left:4px solid var(--accent);padding:10px 14px;background:var(--accent2);border-radius:0 9px 9px 0;margin:12px 0}
-.qa{border:1px solid var(--line);border-radius:10px;margin:9px 0;overflow:hidden}
-.question{width:100%;text-align:left;border:0;border-radius:0;background:transparent;font-weight:700;padding:13px 15px}
-.answer{display:none;padding:0 15px 14px;color:var(--muted)}
-.qa.open .answer{display:block}
-.flash{max-width:650px;min-height:210px;margin:15px auto;border:2px solid var(--line);border-radius:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px;cursor:pointer;background:var(--accent2)}
-.flash .big{font-size:1.4rem;font-weight:750}
-.flash small{color:var(--muted);margin-top:12px}
-.quizq{padding:15px;border:1px solid var(--line);border-radius:12px;margin:12px 0}
-.quizq p{font-weight:700;margin:0 0 10px}
-.option{display:block;width:100%;text-align:left;margin:6px 0;background:var(--bg)}
-.option.selected{border-color:var(--accent);background:var(--accent2)}
-.result{font-weight:700;margin:12px 0}
-.muted{color:var(--muted)}
-.search{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin:6px 0 14px}
-footer{text-align:center;color:var(--muted);padding:25px 15px;font-size:.9rem}
-@media(max-width:650px){.top{display:block}.actions{margin-top:18px}section.panel{padding:16px}.tabs{gap:6px}.tab{font-size:.9rem;padding:8px 10px}}
-</style>
-</head>
-<body>
-
-<header>
-<div class="top">
-<div>
-<h1>World War I</h1>
-<p class="sub">An interactive exam study guide — definitions, people, major countries, propaganda, timeline, and practice questions.</p>
-</div>
-<div class="actions">
-<button class="hero-btn" onclick="window.print()">Print / Save PDF</button>
-<button class="hero-btn" id="themeBtn">Dark mode</button>
-</div>
-</div>
-</header>
-
-<main class="wrap">
-
-<div class="notice"><strong>Study note:</strong> Your uploaded exam sheet lists what to know, but it does not include your teacher’s slideshow answers. This guide fills in the topics with standard historical information. If your class notes use a specific wording or interpretation, use your teacher’s version for the exam.</div>
-
-<div class="progressbox">
-<div class="progressrow">
-<strong>Your study progress</strong>
-<span id="progressText">0 of 7 sections reviewed</span>
-</div>
-<div class="bar"><span id="progressBar"></span></div>
-</div>
-
-<nav class="tabs" aria-label="Study guide sections">
-<button class="tab active" data-tab="people">People</button>
-<button class="tab" data-tab="vocab">Vocabulary</button>
-<button class="tab" data-tab="powers">Powers & Map</button>
-<button class="tab" data-tab="propaganda">Propaganda</button>
-<button class="tab" data-tab="timeline">Timeline</button>
-<button class="tab" data-tab="questions">Exam Questions</button>
-<button class="tab" data-tab="practice">Practice</button>
-</nav>
-
-<section class="panel active" id="people">
-<h2>1. People to Know</h2>
-<p class="hint">Know who each person was and why they mattered during World War I.</p>
-<div class="grid">
-
-<div class="card"><span class="tag">Austria-Hungary</span><h3>Archduke Franz Ferdinand</h3><p>He was the heir to the Austro-Hungarian throne. His assassination in Sarajevo on June 28, 1914, triggered the chain of events that began World War I.</p></div>
-
-<div class="card"><span class="tag">United States</span><h3>Woodrow Wilson</h3><p>U.S. president during the war. He initially kept the United States neutral, asked Congress to declare war in April 1917, and later proposed the Fourteen Points.</p></div>
-
-<div class="card"><span class="tag">United States</span><h3>Herbert Hoover</h3><p>Led the U.S. Food Administration during the war. He encouraged Americans to conserve food and reduce waste so more supplies could be sent to Allied forces.</p></div>
-
-<div class="card"><span class="tag">Russia</span><h3>Czar Nicholas II</h3><p>Russia’s ruler when the war began. Military defeats and unrest weakened his government, and he abdicated in 1917 during the Russian Revolution.</p></div>
-
-<div class="card"><span class="tag">Russia</span><h3>Vladimir Lenin</h3><p>Bolshevik revolutionary leader who took power in Russia in 1917. His government withdrew Russia from the war by making peace with the Central Powers in 1918.</p></div>
-
-<div class="card"><span class="tag">Germany</span><h3>Kaiser Wilhelm II</h3><p>Germany’s emperor during most of the war. He abdicated in November 1918 as Germany’s monarchy collapsed near the end of the war.</p></div>
-
-<div class="card"><span class="tag">United States</span><h3>General John J. Pershing</h3><p>Commander of the American Expeditionary Forces (AEF) in Europe. He led U.S. troops after America entered the war.</p></div>
-
-</div>
-</section>
-
-<section class="panel" id="vocab">
-<h2>2. Vocabulary & Terms</h2>
-<p class="hint">Use the search box to find a word. Definitions are written in straightforward study language.</p>
-<input class="search" id="termSearch" placeholder="Search a term…" aria-label="Search vocabulary">
-
-<div class="term-list" id="terms">
-<div class="term"><strong>Alliance</strong><span>An agreement between countries to support or defend one another.</span></div>
-<div class="term"><strong>Militarism</strong><span>Building up a nation’s armed forces and treating military power as important.</span></div>
-<div class="term"><strong>Nationalism</strong><span>Strong pride in and loyalty to one’s nation; it can also create rivalry between nations.</span></div>
-<div class="term"><strong>Imperialism</strong><span>Extending a country’s power by controlling other lands, peoples, or resources.</span></div>
-<div class="term"><strong>U-Boat</strong><span>A German military submarine used to attack ships, including merchant and passenger vessels.</span></div>
-<div class="term"><strong>Trench warfare</strong><span>A type of fighting in which opposing armies defend long networks of dug-out trenches.</span></div>
-<div class="term"><strong>Stalemate</strong><span>A situation in which neither side can make enough progress to defeat the other.</span></div>
-<div class="term"><strong>No Man’s Land</strong><span>The dangerous area between opposing trench lines.</span></div>
-<div class="term"><strong>Dogfight</strong><span>An aerial battle between fighter aircraft.</span></div>
-<div class="term"><strong>The Lusitania</strong><span>A British passenger liner sunk by a German U-boat in May 1915. The attack killed 1,198 people, including 128 Americans, and increased U.S. anger toward Germany.</span></div>
-<div class="term"><strong>Neutrality</strong><span>Not taking either side in a conflict or war.</span></div>
-<div class="term"><strong>Zimmermann Telegram</strong><span>A secret 1917 German message proposing that Mexico ally with Germany if the United States entered the war; Germany suggested Mexico could try to recover territory it had lost to the U.S.</span></div>
-<div class="term"><strong>Four Minute Men</strong><span>Volunteers who gave short patriotic speeches, often during movie intermissions, to encourage support for the war.</span></div>
-<div class="term"><strong>Food Administration</strong><span>The U.S. agency led by Herbert Hoover that encouraged food conservation and organized food supplies during the war.</span></div>
-<div class="term"><strong>Propaganda</strong><span>Information, often one-sided or emotionally persuasive, designed to influence what people think or do.</span></div>
-<div class="term"><strong>Selective Service Act</strong><span>The 1917 law that required men in specified age groups to register for a military draft.</span></div>
-<div class="term"><strong>Committee on Public Information (CPI)</strong><span>A U.S. government agency led by George Creel that publicized the American war effort and built public support for the war.</span></div>
-<div class="term"><strong>War Industries Board</strong><span>A U.S. agency that coordinated wartime production and helped direct the flow of materials and supplies to industries.</span></div>
-<div class="term"><strong>Abdicate</strong><span>To give up a position of power, especially a throne.</span></div>
-<div class="term"><strong>Armistice</strong><span>An agreement to stop fighting. The armistice ending the fighting in World War I took effect on November 11, 1918.</span></div>
-<div class="term"><strong>The Fourteen Points</strong><span>President Wilson’s 1918 peace plan. It called for ideas such as open diplomacy, reduced trade barriers, arms reduction, national self-determination, and a League of Nations.</span></div>
-<div class="term"><strong>The Big Four</strong><span>The four major Allied leaders at the Paris Peace Conference: Woodrow Wilson (U.S.), David Lloyd George (Britain), Georges Clemenceau (France), and Vittorio Orlando (Italy).</span></div>
-<div class="term"><strong>Self-determination</strong><span>The idea that people should have a say in choosing their own government and political future.</span></div>
-<div class="term"><strong>Reparations</strong><span>Payments demanded from a country to compensate for damage caused by a war.</span></div>
-</div>
-</section>
-
-<section class="panel" id="powers">
-<h2>3. Major Powers & Europe Map</h2>
-<p class="hint">Memorize the four major Allied countries before the U.S. joined and the four Central Powers.</p>
-
-<div class="grid">
-<div class="card"><span class="tag">Allied Powers (before U.S. entry)</span><h3>Britain • France • Russia • Italy*</h3><p>These are the four countries commonly listed on this study guide. Italy was initially neutral and joined the Allies in 1915.</p></div>
-<div class="card"><span class="tag">Central Powers</span><h3>Germany • Austria-Hungary • Ottoman Empire • Bulgaria</h3><p>These four countries made up the main Central Powers.</p></div>
-</div>
-
-<div class="callout"><strong>Important Italy detail:</strong> Italy had been part of the prewar Triple Alliance with Germany and Austria-Hungary, but it did not enter the war with them. Italy joined the Allied side in 1915.</div>
-
-<h3>Countries to locate on a pre-WWI Europe map</h3>
-<table>
-<thead><tr><th>Country</th><th>Where to look</th><th>Map clue</th></tr></thead>
-<tbody>
-<tr><td>Britain</td><td>Northwest Europe, on islands west of mainland Europe</td><td>Across the English Channel from France</td></tr>
-<tr><td>France</td><td>Western Europe</td><td>South of Britain and west of Germany</td></tr>
-<tr><td>Spain</td><td>Southwest Europe</td><td>On the Iberian Peninsula, west of France</td></tr>
-<tr><td>Italy</td><td>Southern Europe</td><td>Boot-shaped peninsula extending into the Mediterranean Sea</td></tr>
-<tr><td>Germany</td><td>Central Europe</td><td>East of France and north of Austria-Hungary</td></tr>
-<tr><td>Austria-Hungary</td><td>Central/southeastern Europe</td><td>South of Germany</td></tr>
-<tr><td>Belgium</td><td>Western Europe</td><td>Between France, Germany, and the North Sea</td></tr>
-<tr><td>Russia</td><td>Eastern Europe and northern Asia</td><td>Vast territory east of Germany and Austria-Hungary</td></tr>
-</tbody>
-</table>
-
-<p class="muted">Map practice tip: first find the coastlines, then locate Britain, the Iberian Peninsula (Spain), Italy’s boot, and the large eastern area of Russia. Use your class map for exact borders and labels.</p>
-</section>
-
-<section class="panel" id="propaganda">
-<h2>4. Six Types of Propaganda</h2>
-<p class="hint">A propaganda poster tries to influence an audience. Identify the technique by asking how the message persuades people.</p>
-
-<div class="grid">
-<div class="card"><span class="tag">1</span><h3>Testimonial</h3><p>Uses a respected or famous person—or an ordinary person presented as trustworthy—to endorse an idea or product.</p><p><strong>Example:</strong> A well-known athlete tells people to support a war effort.</p></div>
-<div class="card"><span class="tag">2</span><h3>Name-calling</h3><p>Uses insulting or negative labels to make an opponent seem bad without fairly explaining the issue.</p><p><strong>Example:</strong> Calling the enemy cruel names to create hatred.</p></div>
-<div class="card"><span class="tag">3</span><h3>Bandwagon</h3><p>Suggests that everyone is doing something, so you should join too.</p><p><strong>Example:</strong> “Everyone is helping—do your part!”</p></div>
-<div class="card"><span class="tag">4</span><h3>Fear</h3><p>Uses a threat or frightening possibility to pressure people into acting.</p><p><strong>Example:</strong> A poster warns that the country is in danger unless people support the war.</p></div>
-<div class="card"><span class="tag">5</span><h3>Card-stacking</h3><p>Shows only selected facts that support one side while leaving out important information that could weaken the argument.</p><p><strong>Example:</strong> A poster lists only an enemy’s wrongdoings and ignores other facts.</p></div>
-<div class="card"><span class="tag">6</span><h3>Word magic</h3><p>Uses positive, emotionally powerful words or slogans to make an idea sound appealing without giving much evidence.</p><p><strong>Example:</strong> “Freedom,” “victory,” or “protect our homes.”</p></div>
-</div>
-
-<h3>How to analyze a propaganda poster</h3>
-<ol>
-<li><strong>Audience:</strong> Who is the poster trying to reach?</li>
-<li><strong>Purpose:</strong> What does it want people to think, feel, or do?</li>
-<li><strong>Technique:</strong> Which of the six methods is being used? Look at both words and images.</li>
-<li><strong>Evidence:</strong> Point to a specific word, slogan, person, symbol, or image that supports your answer.</li>
-<li><strong>Message:</strong> Explain the poster’s main message in one sentence.</li>
-</ol>
-
-<div class="callout">A poster can use more than one technique. Choose the strongest one and explain the evidence instead of only naming a category.</div>
-</section>
-
-<section class="panel" id="timeline">
-<h2>5. Major Events in Order</h2>
-<p class="hint">Use this 10-point timeline to practice the sequence of the war.</p>
-
-<ol class="timeline">
-<li><strong>June 28, 1914 — Assassination of Franz Ferdinand.</strong> The heir to Austria-Hungary’s throne is assassinated in Sarajevo.</li>
-<li><strong>July–August 1914 — War begins in Europe.</strong> Alliances and declarations of war turn a regional crisis into a wider European war.</li>
-<li><strong>August 1914 — Germany invades Belgium.</strong> Germany’s move through neutral Belgium helps bring Britain into the war.</li>
-<li><strong>1914 — First Battle of the Marne.</strong> Allied forces stop the German advance toward Paris; the Western Front settles into trench warfare.</li>
-<li><strong>May 1915 — Lusitania is sunk.</strong> A German U-boat sinks the British passenger ship, increasing tensions with the United States.</li>
-<li><strong>1917 — Russian Revolutions.</strong> Nicholas II abdicates; later, Lenin and the Bolsheviks take power. Russia moves toward leaving the war.</li>
-<li><strong>January 1917 — Zimmermann Telegram.</strong> Germany’s proposal to Mexico becomes public and increases U.S. anger.</li>
-<li><strong>April 6, 1917 — United States declares war on Germany.</strong> The U.S. enters the war on the Allied side.</li>
-<li><strong>March 1918 — Treaty of Brest-Litovsk.</strong> Russia’s new government makes peace with the Central Powers and leaves the war.</li>
-<li><strong>November 11, 1918 — Armistice.</strong> Fighting stops on the Western Front. The peace treaty is negotiated later.</li>
-</ol>
-
-<div class="callout"><strong>After the fighting:</strong> The Treaty of Versailles was signed in 1919. It formally made peace between Germany and the Allied powers.</div>
-</section>
-
-<section class="panel" id="questions">
-<h2>6. Important Exam Questions</h2>
-<p class="hint">Tap each question to reveal a study answer. These are standard historical explanations, not quotations from the missing class slides.</p>
-
-<div id="qas">
-<div class="qa"><button class="question">In what country did most of WWI take place?</button><div class="answer">There was fighting on several fronts and in multiple countries. On the Western Front, much of the major trench fighting took place in France and Belgium. If your teacher expects one country, check the class map or notes for the exact phrasing.</div></div>
-
-<div class="qa"><button class="question">What three reasons led the U.S. to declare war in 1917?</button><div class="answer">Three major reasons were Germany’s unrestricted submarine warfare (including attacks that threatened American ships and lives), the Zimmermann Telegram proposing a German-Mexican alliance, and the growing economic and political ties between the U.S. and the Allied Powers. The U.S. declared war on Germany on April 6, 1917.</div></div>
-
-<div class="qa"><button class="question">What was involved in the Zimmermann Telegram?</button><div class="answer">German foreign secretary Arthur Zimmermann sent a secret message to Mexico. It proposed that Mexico ally with Germany if the U.S. entered the war. Germany suggested Mexico could try to regain territory it had lost to the United States. British intelligence intercepted the message, and it became public in 1917.</div></div>
-
-<div class="qa"><button class="question">How did U.S. citizens feel about Germans in the United States during the war?</button><div class="answer">Anti-German prejudice and suspicion increased. Some German Americans faced harassment and discrimination. Examples included pressure to stop speaking German in public, schools dropping German-language instruction, German cultural traditions being discouraged, and German-named foods or places being renamed in some communities.</div></div>
-
-<div class="qa"><button class="question">How did WWI help the U.S. education system, and how was illiteracy discovered?</button><div class="answer">The military needed to assess and train millions of men. Army intelligence and literacy tests revealed that many recruits had limited reading skills, drawing public attention to illiteracy and strengthening calls to improve education. The exact test or statistic used in your class may be in the slideshow notes.</div></div>
-
-<div class="qa"><button class="question">What were Americans expected to do to help the Food Administration?</button><div class="answer">People were encouraged to conserve food so more could be shipped to troops and Allies. Common efforts included eating less wheat, meat, sugar, and fats; avoiding waste; planting victory gardens; and observing “meatless” or “wheatless” days. Herbert Hoover led the Food Administration.</div></div>
-
-<div class="qa"><button class="question">What were major parts of Wilson’s Fourteen Points? Which part mattered most to him?</button><div class="answer">The plan included open diplomacy, freedom of the seas, fewer trade barriers, arms reduction, fairer colonial arrangements, national self-determination, and a League of Nations to help prevent future wars. Wilson considered the League of Nations the most important part because he believed it could help preserve peace.</div></div>
-
-<div class="qa"><button class="question">How did Wilson’s peace ideas differ from other Allied leaders’ ideas?</button><div class="answer">Wilson generally favored a peace based on principles and a stable international order, rather than revenge. French leader Georges Clemenceau wanted strong security measures and compensation from Germany because France had suffered severe damage. British leader David Lloyd George also faced demands for German punishment and reparations, though his position was more moderate than Clemenceau’s.</div></div>
-
-<div class="qa"><button class="question">Which European governments collapsed as a result of WWI?</button><div class="answer">The German, Austro-Hungarian, Russian, and Ottoman empires collapsed or were dismantled. Russia’s monarchy fell in 1917; Germany’s monarchy ended in 1918. The Austro-Hungarian and Ottoman empires also broke apart.</div></div>
-
-<div class="qa"><button class="question">How might Germans have felt about the Treaty of Versailles?</button><div class="answer">Many Germans viewed it as unfair and humiliating. Germany was forced to accept responsibility for the war under the treaty’s war-guilt clause, give up territory, reduce its military, and pay reparations. German representatives had little ability to negotiate the terms.</div></div>
-
-<div class="qa"><button class="question">Who did and did not sign the Treaty of Versailles?</button><div class="answer">The treaty was signed on June 28, 1919, by Germany and the Allied and associated powers. The United States did not ratify it: the U.S. Senate rejected the treaty, so the United States did not become a party to it through ratification.</div></div>
-
-<div class="qa"><button class="question">Why did the U.S. Senate reject the Treaty of Versailles?</button><div class="answer">Many senators, especially opponents of the League of Nations, feared Article X could draw the United States into future conflicts without Congress independently deciding to do so. Senators also disagreed over the treaty’s terms and the president’s approach. The Senate did not approve the treaty by the required two-thirds vote.</div></div>
-</div>
-</section>
-
-<section class="panel" id="practice">
-<h2>7. Practice & Flashcards</h2>
-<p class="hint">Test yourself before looking at the answers. Use the flashcards, then take the multiple-choice quiz.</p>
-
-<h3>Flashcards</h3>
-<div class="flash" id="flashcard" role="button" tabindex="0" aria-label="Flashcard; click to flip">
-<div class="big" id="flashFront">Alliance</div>
-<small id="flashHint">Tap to reveal definition</small>
-</div>
-
-<div style="display:flex;justify-content:center;gap:9px;flex-wrap:wrap">
-<button id="prevCard">Previous</button>
-<button id="flipCard">Flip card</button>
-<button id="nextCard">Next</button>
-</div>
-<p class="muted" id="cardCount" style="text-align:center">Card 1 of 12</p>
-
-<h3>Choose a practice mode</h3>
-<div class="actions" style="margin:10px 0 14px">
-<button id="modeMixed" class="tab active">Mixed exam quiz</button>
-<button id="modeVocab" class="tab">Vocabulary quiz</button>
-<button id="modePeople" class="tab">People quiz</button>
-<button id="modeQuick" class="tab">Quick 5</button>
-</div>
-
-<p class="muted" id="quizModeDescription">10 mixed questions covering the full study guide.</p>
-<div id="quiz"></div>
-
-<div style="display:flex;gap:8px;flex-wrap:wrap">
-<button id="gradeQuiz">Submit answers</button>
-<button id="resetQuiz">Restart quiz</button>
-<button id="reviewMissed">Review missed answers</button>
-</div>
-
-<div class="result" id="quizResult" aria-live="polite"></div>
-<div id="missedReview"></div>
-</section>
-
-</main>
-
-<footer>Built from the topics on your uploaded “World War I Examination Study Guide.” Use your teacher’s class materials for any class-specific details.</footer>
-
-<script>
-const tabs=[...document.querySelectorAll('.tab')];
-const panels=[...document.querySelectorAll('.panel')];
-const reviewed=new Set();
-
-function showTab(id){
-tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===id));
-panels.forEach(p=>p.classList.toggle('active',p.id===id));
-reviewed.add(id);
-document.getElementById('progressText').textContent=`${reviewed.size} of 7 sections reviewed`;
-document.getElementById('progressBar').style.width=(reviewed.size/7*100)+'%';
-}
-
-tabs.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
-
-document.getElementById('themeBtn').addEventListener('click',()=>{
-let dark=document.documentElement.dataset.theme!=='dark';
-document.documentElement.dataset.theme=dark?'dark':'light';
-document.getElementById('themeBtn').textContent=dark?'Light mode':'Dark mode';
-});
-
-document.getElementById('termSearch').addEventListener('input',e=>{
-let q=e.target.value.toLowerCase();
-document.querySelectorAll('#terms .term').forEach(x=>{
-x.style.display=x.innerText.toLowerCase().includes(q)?'':'none';
-});
-});
-
-document.querySelectorAll('.question').forEach(b=>{
-b.addEventListener('click',()=>b.parentElement.classList.toggle('open'));
-});
-
-const cards=[
-['Alliance','An agreement between countries to support or defend one another.'],
-['Militarism','Building up a nation’s armed forces and treating military power as important.'],
-['Nationalism','Strong pride in and loyalty to one’s nation.'],
-['Imperialism','Extending power by controlling other lands, peoples, or resources.'],
-['U-Boat','A German military submarine.'],
-['Trench warfare','Fighting from long networks of defensive trenches.'],
-['Stalemate','A situation where neither side can make enough progress to win.'],
-['No Man’s Land','The dangerous area between opposing trench lines.'],
-['Zimmermann Telegram','A secret German proposal for Mexico to ally with Germany if the U.S. entered the war.'],
-['Armistice','An agreement to stop fighting.'],
-['Fourteen Points','Wilson’s plan for a peace settlement after WWI.'],
-['Reparations','Payments demanded to compensate for war damage.']
-];
-
-let ci=0;
-let flipped=false;
-
-function renderCard(){
-document.getElementById('flashFront').textContent=flipped?cards[ci][1]:cards[ci][0];
-document.getElementById('flashHint').textContent=flipped?'Tap to see term':'Tap to reveal definition';
-document.getElementById('cardCount').textContent=`Card ${ci+1} of ${cards.length}`;
-}
-
-function flip(){
-flipped=!flipped;
-renderCard();
-}
-
-document.getElementById('flashcard').addEventListener('click',flip);
-
-document.getElementById('flashcard').addEventListener('keydown',e=>{
-if(e.key==='Enter'||e.key===' '){
-e.preventDefault();
-flip();
-}
-});
-
-document.getElementById('flipCard').onclick=flip;
-
-document.getElementById('prevCard').onclick=()=>{
-ci=(ci+cards.length-1)%cards.length;
-flipped=false;
-renderCard();
-};
-
-document.getElementById('nextCard').onclick=()=>{
-ci=(ci+1)%cards.length;
-flipped=false;
-renderCard();
-};
-
-renderCard();
-
-const questionSets={
-mixed:[
-{q:'Which event directly triggered the crisis that led to WWI?',a:['The sinking of the Lusitania','The assassination of Franz Ferdinand','The Zimmermann Telegram','The Treaty of Versailles'],c:1,why:'Franz Ferdinand was assassinated in Sarajevo on June 28, 1914.'},
-{q:'Which country used U-Boats?',a:['Germany','Italy','Russia','Belgium'],c:0,why:'U-Boats were German military submarines.'},
-{q:'What is a stalemate?',a:['A peace treaty','A naval battle','A situation where neither side can make enough progress to win','A military draft'],c:2,why:'A stalemate is when neither side can make decisive progress.'},
-{q:'Who led the U.S. Food Administration?',a:['John J. Pershing','Vladimir Lenin','Herbert Hoover','Kaiser Wilhelm II'],c:2,why:'Herbert Hoover led the Food Administration.'},
-{q:'What did the Zimmermann Telegram propose?',a:['A German-Mexican alliance','A peace treaty with France','A Russian invasion of Britain','A U.S.-German alliance'],c:0,why:'Germany proposed that Mexico ally with Germany if the U.S. entered the war.'},
-{q:'When did the armistice take effect?',a:['July 4, 1917','November 11, 1918','June 28, 1919','April 6, 1917'],c:1,why:'The armistice took effect on November 11, 1918.'},
-{q:'Which was a Central Power?',a:['Britain','France','Russia','Austria-Hungary'],c:3,why:'Austria-Hungary was one of the Central Powers.'},
-{q:'Which propaganda technique suggests everyone is joining in?',a:['Fear','Bandwagon','Card-stacking','Testimonial'],c:1,why:'Bandwagon pressure says that everyone is doing it, so you should too.'},
-{q:'What was the main idea of self-determination?',a:['Countries must expand their armies','People should help choose their government','All countries should have the same ruler','Germany should pay no taxes'],c:1,why:'Self-determination means people should have a say in their political future.'},
-{q:'Who were the Big Four?',a:['Four German generals','Four leading Allied leaders at the peace conference','Four Central Powers','Four U.S. presidents'],c:1,why:'The Big Four were Wilson, Lloyd George, Clemenceau, and Orlando.'}
-],
-
-vocab:[
-{q:'What does militarism mean?',a:['Building up armed forces and emphasizing military power','Allowing people to choose their government','Stopping all international trade','Making an agreement to end fighting'],c:0,why:'Militarism is the buildup and glorification of military strength.'},
-{q:'What is No Man’s Land?',a:['A neutral country','The area between opposing trench lines','A military headquarters','A type of submarine'],c:1,why:'No Man’s Land was the exposed area between enemy trenches.'},
-{q:'What is an armistice?',a:['A declaration of war','An agreement to stop fighting','A payment after a war','A military alliance'],c:1,why:'An armistice stops active fighting; it is not necessarily the final peace treaty.'},
-{q:'What are reparations?',a:['Payments for war damage','Secret military messages','A country’s armed forces','A government’s election rules'],c:0,why:'Reparations are payments demanded to compensate for war damage.'},
-{q:'What does abdicate mean?',a:['To invade a country','To give up a throne or position of power','To form an alliance','To draft soldiers'],c:1,why:'A ruler who abdicates gives up the throne.'},
-{q:'What is propaganda?',a:['Neutral reporting of every side','Information designed to influence opinions or actions','A formal end-of-war agreement','A military submarine'],c:1,why:'Propaganda is persuasive information, often one-sided.'}
-],
-
-people:[
-{q:'Who was the heir to the Austro-Hungarian throne whose assassination helped trigger WWI?',a:['Woodrow Wilson','Franz Ferdinand','Vladimir Lenin','Herbert Hoover'],c:1,why:'Franz Ferdinand was assassinated in Sarajevo in 1914.'},
-{q:'Who was U.S. president during WWI?',a:['Woodrow Wilson','Kaiser Wilhelm II','Czar Nicholas II','John J. Pershing'],c:0,why:'Woodrow Wilson was president of the United States during the war.'},
-{q:'Who led the American Expeditionary Forces in Europe?',a:['Herbert Hoover','Vladimir Lenin','John J. Pershing','David Lloyd George'],c:2,why:'General John J. Pershing commanded the AEF.'},
-{q:'Who led the Bolsheviks and helped take power in Russia in 1917?',a:['Czar Nicholas II','Vladimir Lenin','Franz Ferdinand','Woodrow Wilson'],c:1,why:'Lenin led the Bolsheviks during the Russian Revolution.'},
-{q:'Who was Germany’s emperor during most of WWI?',a:['Kaiser Wilhelm II','Herbert Hoover','John J. Pershing','Georges Clemenceau'],c:0,why:'Kaiser Wilhelm II was Germany’s emperor.'}
-]
-};
-
-let currentMode='mixed';
-let activeQuestions=questionSets.mixed;
-let answers={};
-let graded=false;
-let missed=[];
-
-function renderQuiz(){
-const el=document.getElementById('quiz');
-el.innerHTML='';
-
-activeQuestions.forEach((q,i)=>{
-let d=document.createElement('div');
-d.className='quizq';
-
-let p=document.createElement('p');
-p.textContent=`${i+1}. ${q.q}`;
-d.appendChild(p);
-
-q.a.forEach((a,j)=>{
-let b=document.createElement('button');
-b.className='option'+(answers[i]===j?' selected':'');
-b.textContent=String.fromCharCode(65+j)+'. '+a;
-b.disabled=graded;
-b.onclick=()=>{
-answers[i]=j;
-renderQuiz();
-};
-d.appendChild(b);
-});
-
-if(graded){
-let f=document.createElement('div');
-f.className='muted';
-f.style.marginTop='8px';
-f.textContent=(answers[i]===q.c?'✓ ':'✗ ')+q.why;
-d.appendChild(f);
-}
-
-el.appendChild(d);
-});
-}
-
-function setMode(mode){
-currentMode=mode;
-activeQuestions=questionSets[mode].slice();
-
-if(mode==='quick')activeQuestions=questionSets.mixed.slice(0,5);
-
-answers={};
-graded=false;
-missed=[];
-
-document.getElementById('quizResult').textContent='';
-document.getElementById('missedReview').innerHTML='';
-
-document.getElementById('quizModeDescription').textContent=
-mode==='mixed'?'10 mixed questions covering the full study guide.':
-mode==='vocab'?'6 questions focused on key WWI terms.':
-mode==='people'?'5 questions about the historical figures on your study guide.':
-'A short 5-question check of the main topics.';
-
-document.querySelectorAll('#practice .actions .tab').forEach(b=>{
-b.classList.toggle('active',b.id==='mode'+mode[0].toUpperCase()+mode.slice(1));
-});
-
-renderQuiz();
-}
-
-document.getElementById('modeMixed').onclick=()=>setMode('mixed');
-document.getElementById('modeVocab').onclick=()=>setMode('vocab');
-document.getElementById('modePeople').onclick=()=>setMode('people');
-document.getElementById('modeQuick').onclick=()=>setMode('quick');
-
-document.getElementById('gradeQuiz').onclick=()=>{
-if(graded)return;
-
-let count=activeQuestions.filter((q,i)=>answers[i]===q.c).length;
-
-missed=activeQuestions.map((q,i)=>({q,i})).filter(x=>answers[x.i]!==x.q.c);
-
-graded=true;
-renderQuiz();
-
-document.getElementById('quizResult').textContent=
-`Score: ${count}/${activeQuestions.length} (${Math.round(count/activeQuestions.length*100)}%). `+
-(count===activeQuestions.length?'Perfect score!':
-count>=Math.ceil(activeQuestions.length*.7)?'Good work — review anything you missed.':
-'Keep practicing — use the explanations and try again.');
-};
-
-document.getElementById('resetQuiz').onclick=()=>setMode(currentMode);
-
-document.getElementById('reviewMissed').onclick=()=>{
-const box=document.getElementById('missedReview');
-
-if(!graded){
-box.textContent='Submit your answers first to see what you missed.';
-return;
-}
-
-if(!missed.length){
-box.textContent='You did not miss any questions. Great job!';
-return;
-}
-
-box.innerHTML='<h3>Questions to review</h3>'+
-missed.map(({q,i})=>
-`<div class="callout">
-<strong>${q.q}</strong><br>
-Your answer: ${answers[i]===undefined?'Not answered':q.a[answers[i]]}<br>
-Correct answer: ${q.a[q.c]}<br>
-${q.why}
-</div>`
-).join('');
-};
-
-renderQuiz();
-showTab('people');
-</script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WWI Study Guide</title>
+<meta name="theme-color" content="#101a31">
+<title>WWI | Complete Study Guide</title>
 <style>
 :root {
-  --bg:#f3f5fa;--card:#fff;--text:#172033;--muted:#667085;
-  --blue:#3157d5;--border:#dfe4ec;--green:#16845b;--red:#c34242;
+  --bg:#f4f6fb;
+  --surface:#fff;
+  --surface2:#edf1f8;
+  --text:#17233c;
+  --muted:#68758c;
+  --accent:#365ee8;
+  --accent2:#2547bf;
+  --border:#dfe5ef;
+  --green:#16845b;
+  --red:#c34242;
+  --shadow:0 8px 28px rgba(20,35,70,.07);
 }
 body.dark {
-  --bg:#101522;--card:#192235;--text:#edf2ff;--muted:#a8b3c8;
-  --blue:#91a8ff;--border:#303d55;--green:#55c99a;--red:#ff8585;
+  --bg:#101522;
+  --surface:#192235;
+  --surface2:#222e44;
+  --text:#edf2ff;
+  --muted:#a8b3c8;
+  --accent:#91a8ff;
+  --accent2:#7692fa;
+  --border:#303d55;
+  --green:#55c99a;
+  --red:#ff8585;
+  --shadow:0 8px 28px rgba(0,0,0,.18);
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;line-height:1.6}
-header{background:linear-gradient(120deg,#142448,#304fa5);color:white;padding:35px 20px}
-header div,main{max-width:850px;margin:auto}
-h1{font-size:38px;margin:0}
-header p{margin:5px 0 0;color:#dbe4ff}
-main{padding:22px 16px 50px}
-button{font:inherit;cursor:pointer;border:1px solid var(--border);border-radius:10px;padding:11px 15px;background:var(--card);color:var(--text)}
-button:hover{border-color:var(--blue)}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
-.tab.active,.primary{background:var(--blue);color:white;border-color:var(--blue)}
-.panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:15px;padding:22px}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+  line-height:1.6;
+  transition:background .2s,color .2s;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+header {
+  background:linear-gradient(125deg,#101a31,#243e80 65%,#365ee8);
+  color:white;
+  padding:42px 20px 32px;
+}
+.header-inner,main{max-width:1050px;margin:auto}
+.eyebrow {
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:12px;
+  font-weight:700;
+  color:#b9caff;
+}
+h1{font-size:clamp(32px,6vw,48px);line-height:1.1;margin:9px 0}
+header p{color:#d7e0ff;margin:10px 0 0}
+.header-bottom {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-top:22px;
+}
+.header-button {
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25);
+  color:white;
+  padding:9px 14px;
+  border-radius:10px;
+}
+main{padding:22px 16px 60px}
+.tabs {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:20px;
+}
+.tab {
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 15px;
+  background:var(--surface);
+  color:var(--text);
+  font-weight:600;
+}
+.tab.active {
+  background:var(--accent);
+  border-color:var(--accent);
+  color:white;
+}
+.panel {
+  display:none;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:clamp(16px,3vw,26px);
+  box-shadow:var(--shadow);
+}
 .panel.active{display:block}
+h2{font-size:25px;margin:0 0 5px}
+h3{font-size:18px;margin:25px 0 10px}
 .muted{color:var(--muted)}
-.term,.person,.question-review{border:1px solid var(--border);border-radius:10px;padding:13px;margin:9px 0}
-.term b,.person b{display:block;font-size:17px}
-.term span,.person span{color:var(--muted)}
-input{width:100%;padding:12px;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);font:inherit;margin:12px 0}
-.progress{height:9px;background:var(--border);border-radius:20px;overflow:hidden;margin:14px 0}
-.progress div{height:100%;width:0;background:var(--blue);transition:.2s}
-.quiz-info{display:flex;justify-content:space-between;gap:10px;color:var(--muted)}
-#question{font-size:22px;font-weight:bold;margin:23px 0}
+.search {
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:13px;
+  background:var(--surface2);
+  color:var(--text);
+  margin:14px 0;
+}
+.section-label {
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1.4px;
+  font-weight:800;
+  color:var(--accent);
+  margin-top:25px;
+}
+.term-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(245px,1fr));
+  gap:10px;
+}
+.term {
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--surface);
+}
+.term strong{display:block;margin-bottom:4px;font-size:16px}
+.term p{margin:0;color:var(--muted);font-size:14px}
+.info-card {
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:14px;
+  margin:9px 0;
+  background:var(--surface);
+}
+.info-card strong{display:block}
+.info-card p{margin:3px 0 0;color:var(--muted)}
+.two-col {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:14px;
+}
+.country-list {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:10px 0;
+}
+.country {
+  padding:8px 12px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:var(--surface2);
+  font-size:14px;
+}
+.timeline {
+  border-left:2px solid var(--accent);
+  margin:18px 0 10px 8px;
+  padding-left:22px;
+}
+.event {
+  position:relative;
+  padding:0 0 20px;
+}
+.event:before {
+  content:"";
+  position:absolute;
+  left:-29px;
+  top:7px;
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+}
+.event strong{display:block}
+.event span{color:var(--muted)}
+.qa {
+  border:1px solid var(--border);
+  border-radius:11px;
+  margin:10px 0;
+  overflow:hidden;
+}
+.qa button {
+  width:100%;
+  text-align:left;
+  padding:14px;
+  border:0;
+  background:var(--surface);
+  color:var(--text);
+  font-weight:700;
+}
+.qa button:after{content:"＋";float:right;color:var(--accent)}
+.qa.open button:after{content:"−"}
+.qa-answer {
+  display:none;
+  padding:0 14px 15px;
+  color:var(--muted);
+}
+.qa.open .qa-answer{display:block}
+.primary,.secondary {
+  padding:11px 16px;
+  border-radius:10px;
+  font-weight:700;
+  border:1px solid var(--border);
+}
+.primary{background:var(--accent);border-color:var(--accent);color:white}
+.primary:hover{background:var(--accent2)}
+.secondary{background:var(--surface);color:var(--text)}
+.quiz-top {
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  color:var(--muted);
+  font-size:14px;
+}
+.progress {
+  height:9px;
+  background:var(--surface2);
+  border-radius:20px;
+  overflow:hidden;
+  margin:13px 0 20px;
+}
+.progress-fill {
+  height:100%;
+  width:0;
+  background:var(--accent);
+  transition:width .25s;
+}
+#question {
+  font-size:clamp(19px,3vw,24px);
+  font-weight:750;
+  line-height:1.4;
+  margin:22px 0;
+}
 .answers{display:grid;gap:10px}
-.answer{width:100%;text-align:left;padding:15px;display:flex;gap:12px;background:var(--bg)}
-.answer b{color:var(--blue)}
-.answer.correct{border:2px solid var(--green)}
-.answer.wrong{border:2px solid var(--red)}
-.answer:disabled{opacity:1}
-#feedback{display:none;margin:15px 0;padding:13px;border-radius:10px;background:var(--bg)}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
-#next{display:none}
-#results{text-align:center;display:none;padding:20px}
-#results strong{font-size:42px}
-.review-answer{color:var(--muted);margin-top:5px}
-footer{text-align:center;padding:25px;color:var(--muted)}
-@media(max-width:600px){h1{font-size:30px}.panel{padding:15px}#question{font-size:19px}}
+.answer {
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  width:100%;
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--surface2);
+  color:var(--text);
+  text-align:left;
+}
+.answer:hover:not(:disabled){border-color:var(--accent)}
+.answer .letter {
+  display:grid;
+  place-items:center;
+  min-width:28px;
+  height:28px;
+  border-radius:7px;
+  background:var(--surface);
+  color:var(--accent);
+  font-weight:800;
+}
+.answer.correct{border:2px solid var(--green);background:rgba(22,132,91,.08)}
+.answer.wrong{border:2px solid var(--red);background:rgba(195,66,66,.08)}
+.answer:disabled{cursor:default;opacity:1}
+.feedback {
+  display:none;
+  padding:14px;
+  border-radius:10px;
+  margin:16px 0;
+  background:var(--surface2);
+}
+.feedback strong{display:block;margin-bottom:4px}
+.quiz-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
+#nextButton{display:none}
+#results{display:none;text-align:center;padding:20px 0}
+.result-number{font-size:55px;font-weight:850;line-height:1.2}
+.result-review{text-align:left;margin-top:25px}
+.result-item{padding:12px;border:1px solid var(--border);border-radius:10px;margin:9px 0}
+.flashcard {
+  min-height:230px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:var(--surface2);
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:25px;
+  cursor:pointer;
+}
+.flashcard .big{font-size:24px;font-weight:800}
+.flashcard .small{color:var(--muted);margin-top:12px}
+.flash-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+footer{text-align:center;color:var(--muted);padding:30px 15px}
+@media(max-width:600px){
+  header{padding:32px 18px}
+  .tabs{display:grid;grid-template-columns:1fr 1fr}
+  .tab{padding:10px 6px;font-size:13px}
+  .panel{padding:16px}
+}
+@media print{
+  body{background:white;color:black}
+  header,.tabs,.header-button,.quiz-actions{display:none!important}
+  .panel{display:block!important;box-shadow:none;border:0}
+}
 </style>
 </head>
-<body>
 
+<body>
 <header>
-<div>
-<h1>World War I Study Guide</h1>
-<p>Learn the definitions. Master the people. Take the full WWI exam.</p>
+<div class="header-inner">
+<div class="eyebrow">Complete exam preparation</div>
+<h1>World War I</h1>
+<p>Your complete study guide, definitions, flashcards, and multiple-choice exam practice.</p>
+<div class="header-bottom">
+<span>Review • Practice • Master the material</span>
+<button class="header-button" onclick="toggleDark()">☾ Toggle dark mode</button>
+</div>
 </div>
 </header>
 
 <main>
-<div class="tabs">
-<button class="tab active" onclick="showTab('study',this)">Study Guide</button>
-<button class="tab" onclick="showTab('quiz',this)">Full Quiz</button>
-<button class="tab" onclick="showTab('review',this)">Exam Questions</button>
-<button onclick="document.body.classList.toggle('dark')">Dark Mode</button>
-</div>
+<nav class="tabs">
+<button class="tab active" data-tab="study">Study Guide</button>
+<button class="tab" data-tab="quiz">Quiz Mode</button>
+<button class="tab" data-tab="flashcards">Flashcards</button>
+<button class="tab" data-tab="exam">Exam Review</button>
+</nav>
 
+<!-- STUDY GUIDE -->
 <section class="panel active" id="study">
-<h2>WWI Vocabulary</h2>
-<p class="muted">These definitions explain what each term means specifically in the context of World War I.</p>
-<input id="search" placeholder="Search for a WWI definition..." oninput="searchTerms()">
+<h2>WWI Study Guide</h2>
+<p class="muted">Review all the major terms and topics from your examination study guide. Definitions are written in their World War I context.</p>
 
-<div id="terms">
-<div class="term"><b>Alliance</b><span>An agreement between countries to support and defend each other. Alliances helped turn the conflict in 1914 into a larger European war.</span></div>
-<div class="term"><b>Militarism</b><span>The buildup of a country's military forces and weapons. European nations expanded their armies and navies before WWI.</span></div>
-<div class="term"><b>Nationalism</b><span>Strong pride and loyalty toward one's nation or ethnic group. Nationalism increased rivalries and tensions in Europe.</span></div>
-<div class="term"><b>Imperialism</b><span>When a powerful country extends its control over other lands and people. Competition for colonies increased tensions before WWI.</span></div>
-<div class="term"><b>U-Boat</b><span>A German submarine used to attack enemy and merchant ships during WWI.</span></div>
-<div class="term"><b>Trench Warfare</b><span>A style of fighting where soldiers fought from long, deep trenches. It made battles difficult and often caused very little movement.</span></div>
-<div class="term"><b>Stalemate</b><span>A situation where neither side can make enough progress to defeat the other. Trench warfare created a stalemate on the Western Front.</span></div>
-<div class="term"><b>No Man's Land</b><span>The dangerous, exposed area between opposing trenches.</span></div>
-<div class="term"><b>Dogfight</b><span>An aerial battle between fighter airplanes.</span></div>
-<div class="term"><b>Lusitania</b><span>A British passenger ship sunk by a German U-Boat in May 1915. Americans were among the civilians killed, increasing anger toward Germany.</span></div>
-<div class="term"><b>Neutrality</b><span>The policy of not taking sides in a war. The United States stayed officially neutral until 1917.</span></div>
-<div class="term"><b>Zimmermann Telegram</b><span>A secret German message proposing an alliance with Mexico if the United States entered WWI. Germany suggested Mexico could try to regain territory lost to the U.S.</span></div>
-<div class="term"><b>Four Minute Men</b><span>Volunteers who gave short patriotic speeches to encourage Americans to support the war effort.</span></div>
-<div class="term"><b>Food Administration</b><span>A U.S. agency led by Herbert Hoover that encouraged Americans to conserve food so more supplies could go to soldiers and Allied countries.</span></div>
-<div class="term"><b>Propaganda</b><span>Information, posters, or messages designed to influence people's opinions and encourage support for a cause or government.</span></div>
-<div class="term"><b>Selective Service Act</b><span>A 1917 law requiring eligible American men to register for the military draft.</span></div>
-<div class="term"><b>Committee on Public Information</b><span>A U.S. government agency that used posters, speeches, films, and publications to build public support for WWI.</span></div>
-<div class="term"><b>War Industries Board</b><span>A U.S. agency that coordinated industrial production and directed materials toward wartime needs.</span></div>
-<div class="term"><b>Abdicate</b><span>To give up a throne or position as ruler. Czar Nicholas II abdicated in 1917.</span></div>
-<div class="term"><b>Armistice</b><span>An agreement to stop fighting. The WWI armistice took effect on November 11, 1918.</span></div>
-<div class="term"><b>Fourteen Points</b><span>President Woodrow Wilson's 1918 peace plan. It included ideas such as self-determination, reduced weapons, and a League of Nations.</span></div>
-<div class="term"><b>Big Four</b><span>The four major Allied leaders at the Paris Peace Conference: Woodrow Wilson, David Lloyd George, Georges Clemenceau, and Vittorio Orlando.</span></div>
-<div class="term"><b>Self-Determination</b><span>The idea that people should have the right to choose their own government and political future.</span></div>
-<div class="term"><b>Reparations</b><span>Payments made by a country to compensate for damage caused by war. Germany was required to pay reparations after WWI.</span></div>
+<input class="search" id="termSearch" placeholder="Search vocabulary..." oninput="filterTerms()">
+
+<div class="section-label">Vocabulary</div>
+<div class="term-grid" id="vocabulary">
+
+<div class="term"><strong>Alliance</strong><p>An agreement between countries to support and defend each other. European alliances helped turn a regional conflict into a larger war.</p></div>
+<div class="term"><strong>Militarism</strong><p>The buildup of military forces and weapons. European countries expanded their armies and navies before WWI.</p></div>
+<div class="term"><strong>Nationalism</strong><p>Strong pride and loyalty toward one's nation or ethnic group. Nationalism increased rivalries and tensions in Europe.</p></div>
+<div class="term"><strong>Imperialism</strong><p>When a powerful country extends control over other lands and people. Competition for colonies increased tensions before WWI.</p></div>
+<div class="term"><strong>U-Boat</strong><p>A German submarine used to attack enemy and merchant ships during WWI.</p></div>
+<div class="term"><strong>Trench Warfare</strong><p>A style of fighting where soldiers fought from long defensive trenches. It made battles difficult and often resulted in little movement.</p></div>
+<div class="term"><strong>Stalemate</strong><p>A situation where neither side can make decisive progress or defeat the other.</p></div>
+<div class="term"><strong>No Man's Land</strong><p>The dangerous, exposed area between opposing trenches.</p></div>
+<div class="term"><strong>Dogfight</strong><p>An aerial battle between fighter airplanes.</p></div>
+<div class="term"><strong>Lusitania</strong><p>A British passenger ship sunk by a German U-Boat in May 1915. Americans were among those killed, increasing anger toward Germany.</p></div>
+<div class="term"><strong>Neutrality</strong><p>The policy of not officially taking sides in a war. The United States remained neutral until 1917.</p></div>
+<div class="term"><strong>Zimmermann Telegram</strong><p>A secret German message proposing an alliance with Mexico if the United States entered the war. Germany suggested Mexico could try to regain territory lost to the United States.</p></div>
+<div class="term"><strong>Four Minute Men</strong><p>Volunteers who gave short patriotic speeches to encourage Americans to support the war effort.</p></div>
+<div class="term"><strong>Food Administration</strong><p>A U.S. agency led by Herbert Hoover that encouraged food conservation so more supplies could go to soldiers and Allied countries.</p></div>
+<div class="term"><strong>Propaganda</strong><p>Messages, images, or information designed to influence people's opinions and encourage support for a cause or government.</p></div>
+<div class="term"><strong>Selective Service Act</strong><p>A 1917 law requiring eligible American men to register for the military draft.</p></div>
+<div class="term"><strong>Committee on Public Information</strong><p>A U.S. government agency that used posters, speeches, films, and publications to build public support for WWI.</p></div>
+<div class="term"><strong>War Industries Board</strong><p>A U.S. agency that coordinated industrial production and directed materials toward wartime needs.</p></div>
+<div class="term"><strong>Abdicate</strong><p>To give up a throne or position as ruler. Czar Nicholas II abdicated in 1917.</p></div>
+<div class="term"><strong>Armistice</strong><p>An agreement to stop fighting. The WWI armistice took effect on November 11, 1918.</p></div>
+<div class="term"><strong>Fourteen Points</strong><p>Woodrow Wilson's 1918 peace plan. It included open diplomacy, reduced weapons, self-determination, and a League of Nations.</p></div>
+<div class="term"><strong>Big Four</strong><p>The four major Allied leaders at the Paris Peace Conference: Woodrow Wilson, David Lloyd George, Georges Clemenceau, and Vittorio Orlando.</p></div>
+<div class="term"><strong>Self-Determination</strong><p>The idea that people should have the right to choose their own government and political future.</p></div>
+<div class="term"><strong>Reparations</strong><p>Payments made by a country to compensate for damage caused by war. Germany was required to pay reparations after WWI.</p></div>
 </div>
 
-<h2 style="margin-top:25px">Important People</h2>
-<div class="person"><b>Franz Ferdinand</b><span>Heir to the Austria-Hungary throne. His assassination in 1914 triggered the crisis that led to WWI.</span></div>
-<div class="person"><b>Woodrow Wilson</b><span>U.S. president during WWI. He asked Congress to declare war in 1917 and proposed the Fourteen Points.</span></div>
-<div class="person"><b>Herbert Hoover</b><span>Led the Food Administration and encouraged Americans to conserve food.</span></div>
-<div class="person"><b>Czar Nicholas II</b><span>Russia's ruler who abdicated during the Russian Revolution in 1917.</span></div>
-<div class="person"><b>Vladimir Lenin</b><span>Bolshevik leader who took power in Russia in 1917. His government later took Russia out of WWI.</span></div>
-<div class="person"><b>Kaiser Wilhelm II</b><span>Germany's emperor during most of WWI. He abdicated in 1918.</span></div>
-<div class="person"><b>John J. Pershing</b><span>U.S. general who commanded the American Expeditionary Forces in Europe.</span></div>
+<div class="section-label">Important People</div>
+<div class="two-col">
+<div class="info-card"><strong>Franz Ferdinand</strong><p>Heir to the Austria-Hungary throne. His assassination in 1914 triggered the crisis that led to WWI.</p></div>
+<div class="info-card"><strong>Woodrow Wilson</strong><p>U.S. president during WWI. He asked Congress to declare war in 1917 and proposed the Fourteen Points.</p></div>
+<div class="info-card"><strong>Herbert Hoover</strong><p>Led the Food Administration and encouraged Americans to conserve food.</p></div>
+<div class="info-card"><strong>Czar Nicholas II</strong><p>Russia's ruler who abdicated during the Russian Revolution in 1917.</p></div>
+<div class="info-card"><strong>Vladimir Lenin</strong><p>Bolshevik leader who took power in Russia in 1917. His government later took Russia out of WWI.</p></div>
+<div class="info-card"><strong>Kaiser Wilhelm II</strong><p>Germany's emperor during most of WWI. He abdicated in 1918.</p></div>
+<div class="info-card"><strong>John J. Pershing</strong><p>U.S. general who commanded the American Expeditionary Forces in Europe.</p></div>
+</div>
 
-<h2 style="margin-top:25px">Allied and Central Powers</h2>
-<div class="person"><b>Allied Powers</b><span>Major Allied countries included Britain, France, Russia, and Italy. Italy joined the Allies in 1915, while Russia left the war in 1918.</span></div>
-<div class="person"><b>Central Powers</b><span>Germany, Austria-Hungary, Ottoman Empire, and Bulgaria.</span></div>
+<div class="section-label">Allied and Central Powers</div>
+<div class="two-col">
+<div class="info-card">
+<strong>Allied Powers</strong>
+<p>Major Allied countries included:</p>
+<div class="country-list">
+<span class="country">Britain</span><span class="country">France</span><span class="country">Russia</span><span class="country">Italy</span>
+</div>
+<p>Italy joined the Allies in 1915. Russia left the war in 1918.</p>
+</div>
+<div class="info-card">
+<strong>Central Powers</strong>
+<p>The four major Central Powers were:</p>
+<div class="country-list">
+<span class="country">Germany</span><span class="country">Austria-Hungary</span><span class="country">Ottoman Empire</span><span class="country">Bulgaria</span>
+</div>
+</div>
+</div>
 
-<h2 style="margin-top:25px">Propaganda Techniques</h2>
-<div class="person"><b>Testimonial</b><span>Using a famous or respected person to support an idea.</span></div>
-<div class="person"><b>Name-calling</b><span>Using insulting names or labels to make an opponent look bad.</span></div>
-<div class="person"><b>Bandwagon</b><span>Making people believe everyone is doing something, so they should join too.</span></div>
-<div class="person"><b>Fear</b><span>Using a threat or frightening possibility to persuade people.</span></div>
-<div class="person"><b>Card-stacking</b><span>Showing only selected facts that support one side while leaving out other information.</span></div>
-<div class="person"><b>Word Magic</b><span>Using emotional or powerful words to make an idea sound appealing.</span></div>
+<div class="section-label">Countries to Know on the Map</div>
+<p class="muted">Be able to recognize and locate these countries on a map of Europe.</p>
+<div class="country-list">
+<span class="country">Britain</span>
+<span class="country">France</span>
+<span class="country">Spain</span>
+<span class="country">Italy</span>
+<span class="country">Germany</span>
+<span class="country">Austria-Hungary</span>
+<span class="country">Belgium</span>
+<span class="country">Russia</span>
+</div>
 
-<h2 style="margin-top:25px">WWI Timeline</h2>
-<div class="person"><b>June 28, 1914</b><span>Franz Ferdinand is assassinated.</span></div>
-<div class="person"><b>July–August 1914</b><span>Declarations of war spread the conflict across Europe.</span></div>
-<div class="person"><b>August 1914</b><span>Germany invades Belgium; Britain enters the war.</span></div>
-<div class="person"><b>1915</b><span>A German U-Boat sinks the Lusitania.</span></div>
-<div class="person"><b>1917</b><span>The Russian Revolution takes place. The Zimmermann Telegram is revealed. The United States enters WWI.</span></div>
-<div class="person"><b>April 6, 1917</b><span>The United States declares war on Germany.</span></div>
-<div class="person"><b>March 1918</b><span>The Treaty of Brest-Litovsk takes Russia out of the war.</span></div>
-<div class="person"><b>November 11, 1918</b><span>The armistice ends the fighting.</span></div>
-<div class="person"><b>June 28, 1919</b><span>The Treaty of Versailles is signed.</span></div>
+<div class="section-label">Six Propaganda Techniques</div>
+<div class="two-col">
+<div class="info-card"><strong>1. Testimonial</strong><p>Using a famous or respected person to support an idea or product.</p></div>
+<div class="info-card"><strong>2. Name-calling</strong><p>Using insulting labels to make an opponent look bad.</p></div>
+<div class="info-card"><strong>3. Bandwagon</strong><p>Making people believe everyone is doing something, so they should join too.</p></div>
+<div class="info-card"><strong>4. Fear</strong><p>Using a threat or frightening possibility to persuade people.</p></div>
+<div class="info-card"><strong>5. Card-stacking</strong><p>Showing only selected facts that support one side while leaving out opposing information.</p></div>
+<div class="info-card"><strong>6. Word Magic</strong><p>Using emotional or powerful words to make an idea sound appealing.</p></div>
+</div>
+
+<div class="section-label">Important WWI Timeline</div>
+<div class="timeline">
+<div class="event"><strong>June 28, 1914</strong><span>Archduke Franz Ferdinand is assassinated in Sarajevo.</span></div>
+<div class="event"><strong>July–August 1914</strong><span>Declarations of war spread the conflict through European alliances.</span></div>
+<div class="event"><strong>August 1914</strong><span>Germany invades Belgium, helping bring Britain into the war.</span></div>
+<div class="event"><strong>1914</strong><span>The First Battle of the Marne stops Germany's advance toward Paris.</span></div>
+<div class="event"><strong>May 1915</strong><span>A German U-Boat sinks the Lusitania.</span></div>
+<div class="event"><strong>1917</strong><span>The Russian Revolution takes place. The Zimmermann Telegram becomes public.</span></div>
+<div class="event"><strong>April 6, 1917</strong><span>The United States declares war on Germany.</span></div>
+<div class="event"><strong>March 1918</strong><span>The Treaty of Brest-Litovsk takes Russia out of WWI.</span></div>
+<div class="event"><strong>November 11, 1918</strong><span>The armistice ends the fighting.</span></div>
+<div class="event"><strong>June 28, 1919</strong><span>The Treaty of Versailles is signed.</span></div>
+</div>
 </section>
 
+<!-- QUIZ -->
 <section class="panel" id="quiz">
-<h2>WWI Full Quiz</h2>
-<p class="muted">Every question has four choices. Answer each one to move forward. The quiz covers vocabulary, people, countries, propaganda, and WWI events.</p>
-<div class="quiz-info"><span id="number">Question 1</span><span id="score">Score: 0</span></div>
-<div class="progress"><div id="bar"></div></div>
-<div id="quizBox">
-<div id="question">Loading...</div>
-<div class="answers" id="answers"></div>
-<div id="feedback"></div>
-<div class="actions"><button id="next" class="primary" style="display:none">Next question →</button><button onclick="restartQuiz()">Restart quiz</button></div>
+<h2>WWI Quiz Mode</h2>
+<p class="muted">Choose one of the four answers. You'll get immediate feedback and an explanation before moving on.</p>
+<div class="quiz-top">
+<span id="questionCount">Question 1 of 1</span>
+<span id="scoreDisplay">Score: 0</span>
 </div>
-<div id="results"></div>
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="quizContent">
+<div id="question"></div>
+<div class="answers" id="answerChoices"></div>
+<div class="feedback" id="feedback"></div>
+<div class="quiz-actions">
+<button class="primary" id="nextButton">Next Question →</button>
+<button class="secondary" onclick="startQuiz()">Restart</button>
+</div>
+</div>
+
+<div id="results">
+<div class="eyebrow">Quiz completed</div>
+<div class="result-number" id="finalScore"></div>
+<h2 id="finalMessage"></h2>
+<p class="muted" id="finalText"></p>
+<button class="primary" onclick="startQuiz()">Retake Full Quiz</button>
+<div class="result-review" id="missedReview"></div>
+</div>
 </section>
 
-<section class="panel" id="review">
-<h2>Written Exam Questions</h2>
-<p class="muted">Click a question to reveal a study answer.</p>
-<div id="written">
-<div class="qa"><button>What were three reasons the United States entered WWI?</button><div class="answer">Unrestricted German submarine warfare, the Zimmermann Telegram, and growing U.S. connections with the Allied Powers contributed to the decision. The U.S. declared war on Germany on April 6, 1917.</div></div>
-<div class="qa"><button>What was the Zimmermann Telegram?</button><div class="answer">A secret German message proposing that Mexico ally with Germany if the United States entered the war.</div></div>
-<div class="qa"><button>How were German Americans treated during WWI?</button><div class="answer">Anti-German prejudice increased. Some German Americans faced suspicion and harassment, and German language and cultural traditions were discouraged in some communities.</div></div>
-<div class="qa"><button>What did Americans do to help the Food Administration?</button><div class="answer">They conserved food, avoided waste, planted gardens, and participated in campaigns to save food for soldiers and Allied countries.</div></div>
-<div class="qa"><button>What were Wilson's Fourteen Points?</button><div class="answer">A peace plan that included open diplomacy, reducing weapons, self-determination, and creating a League of Nations. Wilson especially wanted the League of Nations to help prevent future wars.</div></div>
-<div class="qa"><button>How did Wilson's peace goals differ from other Allied leaders?</button><div class="answer">Wilson wanted a peace based on cooperation and principles. Other leaders, especially France's Georges Clemenceau, wanted stronger punishment and security against Germany.</div></div>
-<div class="qa"><button>Which major empires collapsed after WWI?</button><div class="answer">The German, Austro-Hungarian, Russian, and Ottoman empires collapsed or were dismantled.</div></div>
-<div class="qa"><button>Why did many Germans dislike the Treaty of Versailles?</button><div class="answer">Germany had to accept responsibility for the war, give up territory, reduce its military, and pay reparations. Many Germans considered the treaty unfair and humiliating.</div></div>
-<div class="qa"><button>Why did the U.S. Senate reject the Treaty of Versailles?</button><div class="answer">Many senators opposed joining the League of Nations because they feared it could involve the United States in future conflicts. The Senate did not approve the treaty.</div></div>
+<!-- FLASHCARDS -->
+<section class="panel" id="flashcards">
+<h2>WWI Flashcards</h2>
+<p class="muted">Test your memory. Think of the answer, then click the card to flip it.</p>
+<div class="quiz-top">
+<span id="flashCount">Card 1</span>
+<span>Click card to flip</span>
+</div>
+<div class="flashcard" id="flashcard" onclick="flipCard()">
+<div>
+<div class="big" id="flashFront"></div>
+<div class="small">Click to reveal answer</div>
+</div>
+</div>
+<div class="flash-actions">
+<button class="secondary" onclick="previousCard()">← Previous</button>
+<button class="primary" onclick="flipCard()">Flip Card</button>
+<button class="secondary" onclick="nextCard()">Next →</button>
+</div>
+</section>
+
+<!-- EXAM REVIEW -->
+<section class="panel" id="exam">
+<h2>Exam Question Review</h2>
+<p class="muted">Review the longer questions from your study guide. Click each question to reveal the answer.</p>
+<div id="examQuestions">
+
+<div class="qa"><button>Where did most of the fighting in WWI take place?</button><div class="qa-answer">The Western Front was mainly in France and Belgium. WWI also involved fighting on other fronts, including Eastern Europe and the Middle East.</div></div>
+
+<div class="qa"><button>What were three reasons the United States entered WWI in 1917?</button><div class="qa-answer">Unrestricted German submarine warfare, the Zimmermann Telegram, and growing U.S. economic and political connections with the Allied Powers contributed to the decision.</div></div>
+
+<div class="qa"><button>What was the Zimmermann Telegram?</button><div class="qa-answer">A secret German message proposing that Mexico ally with Germany if the United States entered the war. Germany suggested helping Mexico regain territory it had lost to the United States.</div></div>
+
+<div class="qa"><button>How were German Americans treated during WWI?</button><div class="qa-answer">Anti-German prejudice increased. Some German Americans faced suspicion and harassment. German language and cultural traditions were discouraged in some communities.</div></div>
+
+<div class="qa"><button>What did WWI reveal about education and illiteracy?</button><div class="qa-answer">Military screening and wartime testing revealed that some Americans had limited reading and writing skills. The study guide does not provide a specific percentage or statistic.</div></div>
+
+<div class="qa"><button>What did the Food Administration expect Americans to do?</button><div class="qa-answer">Conserve food and reduce waste so more supplies could be sent to soldiers and Allied countries. Campaigns encouraged practices such as meatless and wheatless days and planting victory gardens.</div></div>
+
+<div class="qa"><button>What were the Fourteen Points?</button><div class="qa-answer">Woodrow Wilson's peace plan. It proposed ideas such as open diplomacy, reduced weapons, self-determination, and a League of Nations.</div></div>
+
+<div class="qa"><button>What was Wilson's main priority in his peace plan?</button><div class="qa-answer">The League of Nations, an international organization intended to help countries cooperate and prevent future wars.</div></div>
+
+<div class="qa"><button>How did Wilson's ideas differ from other Allied leaders?</button><div class="qa-answer">Wilson favored a peace based on cooperation and principles. French leader Georges Clemenceau wanted stronger punishment and security against Germany. British leader David Lloyd George held a more intermediate position.</div></div>
+
+<div class="qa"><button>Which European governments and empires collapsed after WWI?</button><div class="qa-answer">The German, Austro-Hungarian, Russian, and Ottoman empires collapsed or were dismantled.</div></div>
+
+<div class="qa"><button>How did many Germans feel about the Treaty of Versailles?</button><div class="qa-answer">Many Germans considered it unfair and humiliating because Germany had to accept war responsibility, give up territory, reduce its military, and pay reparations.</div></div>
+
+<div class="qa"><button>Who signed the Treaty of Versailles, and what happened with the United States?</button><div class="qa-answer">Germany and the Allied and associated powers signed the treaty. The U.S. Senate did not ratify it, so the United States did not become a party to the treaty through ratification.</div></div>
+
+<div class="qa"><button>Why did the U.S. Senate reject the Treaty of Versailles?</button><div class="qa-answer">Many senators opposed joining the League of Nations because they worried that its commitments could involve the United States in future international conflicts.</div></div>
+
 </div>
 </section>
 </main>
 
-<footer>World War I Study Guide • Built for exam practice</footer>
+<footer>
+World War I Study Guide · Review the material and practice until you're confident.
+</footer>
 
 <script>
-function showTab(id,btn){
- document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));
- document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
- if(id==='quiz'&&!started)restartQuiz();
-}
-function searchTerms(){
- const s=document.getElementById('search').value.toLowerCase();
- document.querySelectorAll('#terms .term').forEach(t=>t.style.display=t.innerText.toLowerCase().includes(s)?'':'none');
-}
-document.querySelectorAll('.qa button').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('open'));
+/* NAVIGATION */
+document.querySelectorAll(".tab").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+    button.classList.add("active");
+    document.getElementById(button.dataset.tab).classList.add("active");
+  });
+});
 
+function toggleDark(){
+  document.body.classList.toggle("dark");
+}
+
+/* SEARCH */
+function filterTerms(){
+  const query=document.getElementById("termSearch").value.toLowerCase();
+  document.querySelectorAll("#vocabulary .term").forEach(term=>{
+    term.style.display=term.textContent.toLowerCase().includes(query)?"":"none";
+  });
+}
+
+/* EXAM QUESTIONS */
+document.querySelectorAll(".qa button").forEach(button=>{
+  button.addEventListener("click",()=>{
+    button.parentElement.classList.toggle("open");
+  });
+});
+
+/* FLASHCARDS */
+const flashcards=[
+["Alliance","An agreement between countries to support and defend each other."],
+["Militarism","Building up military forces and weapons."],
+["Nationalism","Strong pride and loyalty toward one's nation."],
+["Imperialism","Extending control over other lands and people."],
+["U-Boat","A German submarine."],
+["Trench Warfare","Fighting from long defensive trenches."],
+["Stalemate","A situation where neither side can make decisive progress."],
+["No Man's Land","The exposed area between opposing trenches."],
+["Dogfight","An aerial battle between fighter airplanes."],
+["Lusitania","A British passenger ship sunk by a German U-Boat in 1915."],
+["Neutrality","Not officially taking sides in a war."],
+["Zimmermann Telegram","A secret German proposal for Mexico to ally with Germany."],
+["Four Minute Men","Volunteers who gave short patriotic speeches."],
+["Food Administration","An agency led by Herbert Hoover that encouraged food conservation."],
+["Propaganda","Messages designed to influence people's opinions."],
+["Selective Service Act","The 1917 law requiring eligible men to register for the draft."],
+["Committee on Public Information","The U.S. agency that promoted support for the war."],
+["War Industries Board","The agency that coordinated industrial production for wartime needs."],
+["Abdicate","To give up a throne."],
+["Armistice","An agreement to stop fighting."],
+["Fourteen Points","Wilson's peace plan."],
+["Big Four","Wilson, Lloyd George, Clemenceau, and Orlando."],
+["Self-Determination","The right of people to choose their political future."],
+["Reparations","Payments for damage caused by war."],
+["Franz Ferdinand","The heir to Austria-Hungary's throne whose assassination triggered the WWI crisis."],
+["Woodrow Wilson","The U.S. president during WWI."],
+["Herbert Hoover","The leader of the Food Administration."],
+["Czar Nicholas II","Russia's ruler who abdicated in 1917."],
+["Vladimir Lenin","The Bolshevik leader who took power in Russia."],
+["Kaiser Wilhelm II","Germany's emperor during most of WWI."],
+["John J. Pershing","The U.S. general who commanded American forces in Europe."]
+];
+let flashIndex=0;
+let flashFlipped=false;
+
+function showFlashcard(){
+  const card=flashcards[flashIndex];
+  document.getElementById("flashCount").textContent=`Card ${flashIndex+1} of ${flashcards.length}`;
+  document.getElementById("flashFront").textContent=flashFlipped?card[1]:card[0];
+  document.querySelector("#flashcard .small").textContent=flashFlipped?"Click to see the term":"Click to reveal answer";
+}
+function flipCard(){flashFlipped=!flashFlipped;showFlashcard()}
+function nextCard(){flashIndex=(flashIndex+1)%flashcards.length;flashFlipped=false;showFlashcard()}
+function previousCard(){flashIndex=(flashIndex-1+flashcards.length)%flashcards.length;flashFlipped=false;showFlashcard()}
+showFlashcard();
+
+/* FULL QUIZ */
 const questions=[
-["What is an alliance in the context of WWI?",["An agreement between countries to support each other","A type of military trench","A payment after a war","A peace conference"],0,"Alliances were agreements between countries to support and defend one another."],
+["What is an alliance?",["An agreement between countries to support each other","A type of military weapon","A peace treaty","A military draft"],0,"An alliance is an agreement between countries to support and defend each other."],
 ["What does militarism mean?",["Avoiding military spending","Building up military forces and weapons","Giving colonies independence","Refusing to have an army"],1,"Militarism is the buildup and emphasis of military strength."],
 ["What does nationalism mean?",["A type of submarine","A peace agreement","Strong pride and loyalty toward one's nation","A military draft"],2,"Nationalism is strong pride and loyalty toward one's nation or ethnic group."],
 ["What is imperialism?",["A ceasefire","A country extending control over other lands and people","A soldier leaving the army","A policy of neutrality"],1,"Imperialism is when a powerful country extends control over other territories."],
@@ -758,76 +642,169 @@ const questions=[
 ["Which group included Britain, France, Russia, and Italy?",["The Central Powers","The neutral countries","The Allied Powers","The Big Four leaders"],2,"Those four were major Allied countries. Italy joined in 1915."],
 ["Which country was a Central Power?",["France","Britain","Russia","Austria-Hungary"],3,"Austria-Hungary was one of the Central Powers."],
 ["Which list contains the four Central Powers?",["Germany, Austria-Hungary, Ottoman Empire, Bulgaria","Britain, France, Russia, Italy","Germany, France, Spain, Russia","Britain, Germany, Italy, Belgium"],0,"The Central Powers were Germany, Austria-Hungary, Ottoman Empire, and Bulgaria."],
-["Which propaganda technique uses a famous person to support an idea?",["Bandwagon","Testimonial","Fear","Card-stacking"],1,"Testimonial uses an endorsement from a respected or famous person."],
-["Which technique uses insulting labels for an opponent?",["Word magic","Fear","Name-calling","Bandwagon"],2,"Name-calling uses negative labels to make an opponent seem bad."],
-["Which technique suggests everyone is doing something, so you should too?",["Card-stacking","Testimonial","Fear","Bandwagon"],3,"Bandwagon tries to persuade people by making an action seem popular."],
-["Which propaganda technique uses a threat to persuade people?",["Fear","Word magic","Testimonial","Name-calling"],0,"Fear appeals to danger or a frightening possibility."],
-["Which technique presents only selected facts that support one side?",["Bandwagon","Card-stacking","Testimonial","Word magic"],1,"Card-stacking leaves out information that could weaken the message."],
-["Which technique uses emotional or powerful words and slogans?",["Fear","Name-calling","Word magic","Card-stacking"],2,"Word magic uses emotionally powerful language to make an idea appealing."],
-["What event triggered the July Crisis of 1914?",["The Treaty of Versailles","The U.S. declaration of war","The sinking of the Lusitania","The assassination of Franz Ferdinand"],3,"The assassination of Franz Ferdinand set off the July Crisis."],
-["Why did Germany's invasion of Belgium matter?",["It helped bring Britain into the war","It made Russia leave the war","It ended WWI","It made the U.S. join Germany"],0,"Britain entered the war after Germany invaded Belgium."],
-["What happened at the First Battle of the Marne?",["Germany captured London","Allied forces stopped the German advance toward Paris","Russia surrendered","The U.S. entered the war"],1,"The Allied victory stopped Germany's initial advance toward Paris."],
-["When was the Lusitania sunk?",["June 1919","November 1918","May 1915","April 1917"],2,"A German U-Boat sank the Lusitania in May 1915."],
-["When did the United States declare war on Germany?",["August 1914","May 1915","November 1918","April 6, 1917"],3,"The United States declared war on Germany on April 6, 1917."],
-["What treaty took Russia out of WWI?",["Treaty of Brest-Litovsk","Treaty of Versailles","The Fourteen Points","The armistice"],0,"The Treaty of Brest-Litovsk was signed in 1918."],
-["When did the WWI armistice take effect?",["April 6, 1917","November 11, 1918","June 28, 1919","August 1914"],1,"The armistice took effect on November 11, 1918."],
-["Which empires collapsed or were dismantled after WWI?",["British, French, and Spanish","American, Canadian, and Mexican","German, Austro-Hungarian, Russian, and Ottoman","Japanese, Chinese, and Indian"],2,"Those four empires collapsed or were dismantled after the war."],
-["Why did many Germans dislike the Treaty of Versailles?",["It gave Germany new colonies","It made Germany a Big Four member","It removed all reparations","It imposed war responsibility, territorial losses, military limits, and reparations"],3,"Many Germans considered the treaty harsh and humiliating."],
-["Why did the U.S. Senate reject the Treaty of Versailles?",["Many senators opposed the League of Nations and feared future obligations","It required the U.S. to join the Central Powers","Wilson wanted Germany to control France","The armistice had not happened"],0,"Many senators feared League membership could involve the U.S. in future conflicts."]
+["Which country was listed on your study guide map?",["Canada","Belgium","Japan","Brazil"],1,"Belgium is one of the countries listed on your study guide map."],
+["Which propaganda technique uses a famous person to support an idea?",["Bandwagon","Fear","Testimonial","Card-stacking"],2,"Testimonial uses an endorsement from a respected or famous person."],
+["Which technique uses insulting labels for an opponent?",["Word magic","Fear","Bandwagon","Name-calling"],3,"Name-calling uses negative labels to make an opponent seem bad."],
+["Which technique suggests everyone is doing something, so you should too?",["Bandwagon","Word magic","Testimonial","Fear"],0,"Bandwagon tries to persuade people by making an action seem popular."],
+["Which propaganda technique uses a threat to persuade people?",["Card-stacking","Fear","Testimonial","Name-calling"],1,"Fear appeals to danger or a frightening possibility."],
+["Which technique presents only selected facts that support one side?",["Bandwagon","Testimonial","Card-stacking","Word magic"],2,"Card-stacking leaves out information that could weaken the message."],
+["Which technique uses emotional or powerful words and slogans?",["Fear","Name-calling","Testimonial","Word magic"],3,"Word magic uses emotionally powerful language to make an idea appealing."],
+["What event triggered the crisis that led to WWI?",["The assassination of Franz Ferdinand","The Treaty of Versailles","The sinking of the Lusitania","The U.S. declaration of war"],0,"The assassination of Franz Ferdinand set off the July Crisis."],
+["Why did Germany's invasion of Belgium matter?",["It made Russia leave the war","It helped bring Britain into the war","It ended WWI","It made the U.S. join Germany"],1,"Britain entered the war after Germany invaded Belgium."],
+["What happened at the First Battle of the Marne?",["Germany captured London","Russia surrendered","Allied forces stopped the German advance toward Paris","The U.S. entered the war"],2,"The Allied victory stopped Germany's initial advance toward Paris."],
+["When was the Lusitania sunk?",["June 1919","November 1918","April 1917","May 1915"],3,"A German U-Boat sank the Lusitania in May 1915."],
+["When did the United States declare war on Germany?",["April 6, 1917","August 1914","May 1915","November 1918"],0,"The United States declared war on Germany on April 6, 1917."],
+["What treaty took Russia out of WWI?",["Treaty of Versailles","Treaty of Brest-Litovsk","The Fourteen Points","The armistice"],1,"The Treaty of Brest-Litovsk was signed in 1918."],
+["When did the WWI armistice take effect?",["April 6, 1917","June 28, 1919","November 11, 1918","August 1914"],2,"The armistice took effect on November 11, 1918."],
+["When was the Treaty of Versailles signed?",["May 1915","April 1917","November 1918","June 28, 1919"],3,"The Treaty of Versailles was signed on June 28, 1919."],
+["Which empires collapsed or were dismantled after WWI?",["German, Austro-Hungarian, Russian, and Ottoman","British, French, and Spanish","American, Canadian, and Mexican","Japanese, Chinese, and Indian"],0,"Those four empires collapsed or were dismantled after the war."],
+["Why did many Germans dislike the Treaty of Versailles?",["It gave Germany new colonies","It imposed war responsibility, territorial losses, military limits, and reparations","It made Germany a Big Four member","It removed all reparations"],1,"Many Germans considered the treaty harsh and humiliating."],
+["Why did the U.S. Senate reject the Treaty of Versailles?",["It required the U.S. to join the Central Powers","Wilson wanted Germany to control France","Many senators opposed the League of Nations and feared future obligations","The armistice had not happened"],2,"Many senators feared League membership could involve the U.S. in future conflicts."],
+["What did the Food Administration encourage Americans to do?",["Buy more imported goods","Avoid helping the war effort","Stop producing food","Conserve food and reduce waste"],3,"Food conservation helped supply soldiers and Allied countries."],
+["What was Wilson's main priority among his peace proposals?",["The League of Nations","Making Germany a world empire","Ending all trade","Expanding the German military"],0,"Wilson especially wanted the League of Nations to help prevent future wars."],
+["Which leader wanted stronger punishment and security against Germany?",["Woodrow Wilson","Georges Clemenceau","Herbert Hoover","Vladimir Lenin"],1,"Clemenceau, the French leader, wanted stronger guarantees against future German aggression."],
+["What did the Four Minute Men encourage?",["Russian independence","German military expansion","American support for the war","Opposition to food conservation"],2,"They gave patriotic speeches to build support for the American war effort."],
+["What did the Committee on Public Information use?",["Only military orders","Only private letters","Only battlefield reports","Posters, speeches, films, and publications"],3,"The agency used multiple forms of communication to build public support."],
+["What happened to Kaiser Wilhelm II?",["He abdicated in 1918","He became U.S. president","He led the Russian Revolution","He signed the Fourteen Points"],0,"Wilhelm II abdicated in 1918 as Germany's monarchy collapsed."],
+["What happened to Russia after the Bolsheviks took power?",["It joined the Central Powers","It eventually withdrew from WWI","It invaded the United States","It signed the Treaty of Versailles"],1,"Lenin's government made peace with the Central Powers through Brest-Litovsk."],
+["What is the difference between an armistice and a peace treaty?",["They always mean exactly the same thing","An armistice creates a new country","An armistice stops fighting; a peace treaty formally settles peace terms","A peace treaty is only for soldiers"],2,"The armistice stopped the fighting in 1918. The Treaty of Versailles was signed later in 1919."]
 ];
 
-let order=[],current=0,score=0,answered=false,started=false;
-function restartQuiz(){
- order=questions.map((_,i)=>i);current=0;score=0;started=true;
- document.getElementById('results').style.display='none';
- document.getElementById('quizBox').style.display='block';
- render();
+let quizOrder=[];
+let quizIndex=0;
+let quizScore=0;
+let quizAnswered=false;
+let missed=[];
+
+function startQuiz(){
+  quizOrder=questions.map((_,i)=>i);
+  for(let i=quizOrder.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [quizOrder[i],quizOrder[j]]=[quizOrder[j],quizOrder[i]];
+  }
+  quizIndex=0;
+  quizScore=0;
+  quizAnswered=false;
+  missed=[];
+  document.getElementById("quizContent").style.display="block";
+  document.getElementById("results").style.display="none";
+  renderQuestion();
 }
-function render(){
- answered=false;
- const q=questions[order[current]];
- document.getElementById('number').textContent=`Question ${current+1} of ${order.length}`;
- document.getElementById('score').textContent=`Score: ${score}`;
- document.getElementById('bar').style.width=(current/order.length*100)+'%';
- document.getElementById('question').textContent=q[0];
- document.getElementById('feedback').style.display='none';
- document.getElementById('next').style.display='none';
- const area=document.getElementById('answers');area.innerHTML='';
- ['A','B','C','D'].forEach((letter,i)=>{
-   const b=document.createElement('button');b.className='answer';
-   const label=document.createElement('b');label.textContent=letter+'.';
-   const text=document.createElement('span');text.textContent=q[1][i];
-   b.append(label,text);b.onclick=()=>pick(i);area.appendChild(b);
- });
+
+function renderQuestion(){
+  quizAnswered=false;
+  const q=questions[quizOrder[quizIndex]];
+  document.getElementById("questionCount").textContent=`Question ${quizIndex+1} of ${quizOrder.length}`;
+  document.getElementById("scoreDisplay").textContent=`Score: ${quizScore}`;
+  document.getElementById("progressFill").style.width=(quizIndex/quizOrder.length*100)+"%";
+  document.getElementById("question").textContent=q[0];
+  document.getElementById("feedback").style.display="none";
+  document.getElementById("nextButton").style.display="none";
+
+  const area=document.getElementById("answerChoices");
+  area.innerHTML="";
+  ["A","B","C","D"].forEach((letter,i)=>{
+    const button=document.createElement("button");
+    button.className="answer";
+    const label=document.createElement("span");
+    label.className="letter";
+    label.textContent=letter;
+    const answerText=document.createElement("span");
+    answerText.textContent=q[1][i];
+    button.append(label,answerText);
+    button.onclick=()=>chooseAnswer(i);
+    area.appendChild(button);
+  });
 }
-function pick(choice){
- if(answered)return;answered=true;
- const q=questions[order[current]],correct=choice===q[2];
- if(correct)score++;
- [...document.querySelectorAll('.answer')].forEach((b,i)=>{
-   b.disabled=true;
-   if(i===q[2])b.classList.add('correct');
-   if(i===choice&&i!==q[2])b.classList.add('wrong');
- });
- const f=document.getElementById('feedback');f.style.display='block';
- f.textContent=(correct?'✓ Correct! ':'✗ Incorrect. ')+q[3];
- document.getElementById('score').textContent=`Score: ${score}`;
- document.getElementById('next').style.display='inline-block';
- document.getElementById('next').textContent=current===order.length-1?'See results':'Next question →';
+
+function chooseAnswer(choice){
+  if(quizAnswered)return;
+  quizAnswered=true;
+
+  const q=questions[quizOrder[quizIndex]];
+  const correct=choice===q[2];
+  if(correct){
+    quizScore++;
+  }else{
+    missed.push({
+      question:q[0],
+      chosen:q[1][choice],
+      correct:q[1][q[2]],
+      explanation:q[3]
+    });
+  }
+
+  document.querySelectorAll(".answer").forEach((button,i)=>{
+    button.disabled=true;
+    if(i===q[2])button.classList.add("correct");
+    if(i===choice&&!correct)button.classList.add("wrong");
+  });
+
+  const feedback=document.getElementById("feedback");
+  feedback.style.display="block";
+  feedback.innerHTML="";
+  const heading=document.createElement("strong");
+  heading.style.color=correct?"var(--green)":"var(--red)";
+  heading.textContent=correct?"✓ Correct!":"✗ Not quite!";
+  const explanation=document.createElement("div");
+  explanation.textContent=q[3];
+  feedback.append(heading,explanation);
+
+  document.getElementById("scoreDisplay").textContent=`Score: ${quizScore}`;
+  const next=document.getElementById("nextButton");
+  next.style.display="inline-block";
+  next.textContent=quizIndex===quizOrder.length-1?"See Results":"Next Question →";
 }
-document.getElementById('next').onclick=()=>{
- if(!answered)return;
- if(current<order.length-1){current++;render()}
- else finish();
+
+document.getElementById("nextButton").onclick=()=>{
+  if(!quizAnswered)return;
+  if(quizIndex<quizOrder.length-1){
+    quizIndex++;
+    renderQuestion();
+  }else{
+    finishQuiz();
+  }
 };
-function finish(){
- document.getElementById('quizBox').style.display='none';
- document.getElementById('bar').style.width='100%';
- const pct=Math.round(score/order.length*100);
- const r=document.getElementById('results');r.style.display='block';
- r.innerHTML=`<strong>${score} / ${order.length}</strong><h2>${pct}% correct</h2><p>${pct===100?'Perfect score!':pct>=80?'Great work! Review anything you missed.':pct>=60?'Good progress. Study the definitions and try again.':'Keep practicing. Review the study guide and retake the quiz.'}</p><button class="primary" onclick="restartQuiz()">Retake the full quiz</button>`;
+
+function finishQuiz(){
+  document.getElementById("quizContent").style.display="none";
+  document.getElementById("progressFill").style.width="100%";
+  const percent=Math.round(quizScore/quizOrder.length*100);
+  document.getElementById("results").style.display="block";
+  document.getElementById("finalScore").textContent=`${quizScore}/${quizOrder.length}`;
+  document.getElementById("finalMessage").textContent=
+    percent>=95?"Excellent work!":percent>=85?"Great job!":percent>=70?"Good progress!":percent>=60?"Keep studying!":"Time to review the study guide!";
+  document.getElementById("finalText").textContent=
+    `${percent}% correct. You missed ${missed.length} question(s). Review the explanations below and try again.`;
+
+  const review=document.getElementById("missedReview");
+  review.innerHTML="";
+  if(missed.length){
+    const heading=document.createElement("h3");
+    heading.textContent="Questions to Review";
+    review.appendChild(heading);
+    missed.forEach(item=>{
+      const box=document.createElement("div");
+      box.className="result-item";
+      const q=document.createElement("strong");
+      q.textContent=item.question;
+      const chosen=document.createElement("div");
+      chosen.className="muted";
+      chosen.textContent="Your answer: "+item.chosen;
+      const answer=document.createElement("div");
+      answer.textContent="Correct answer: "+item.correct;
+      const explanation=document.createElement("div");
+      explanation.className="muted";
+      explanation.textContent=item.explanation;
+      box.append(q,chosen,answer,explanation);
+      review.appendChild(box);
+    });
+  }else{
+    review.textContent="You answered every question correctly!";
+  }
 }
-restartQuiz();
+
+startQuiz();
 </script>
 </body>
 </html>
